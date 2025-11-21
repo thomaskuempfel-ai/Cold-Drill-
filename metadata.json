@@ -1,0 +1,7 @@
+{
+  "name": "MVP Cold Drill V1 201125",
+  "description": "Brutal cold calling practice. No mercy.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
