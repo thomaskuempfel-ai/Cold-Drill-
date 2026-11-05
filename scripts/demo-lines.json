@@ -1,0 +1,59 @@
+{
+ "note": "Source for the sample call audio (scripts/tts.mjs). Keep in the same order as CALL in index.html.",
+ "lines": [
+  {
+   "speaker": "ai",
+   "voice": "Kore",
+   "style": "Sprich wie eine Einkäuferin am Telefon, die gerade viel zu tun hat: sachlich, etwas kurz angebunden, natürlich und nicht übertrieben.",
+   "text": "Graf."
+  },
+  {
+   "speaker": "you",
+   "voice": "Puck",
+   "style": "Sprich wie ein freundlicher, selbstsicherer Verkäufer am Telefon: natürlich, ruhig, mit kleinen Pausen, nicht vorgelesen.",
+   "text": "Guten Tag Frau Graf, Marco Brunner von Hydrotec. Sie kaufen bei Ihnen die Hydraulikschläuche für die Pressen ein, richtig?"
+  },
+  {
+   "speaker": "ai",
+   "voice": "Kore",
+   "style": "Sprich wie eine Einkäuferin am Telefon, die gerade viel zu tun hat: sachlich, etwas kurz angebunden, natürlich und nicht übertrieben.",
+   "text": "Ja. Aber wir haben einen Lieferanten. Schicken Sie mir einfach was per Mail."
+  },
+  {
+   "speaker": "you",
+   "voice": "Puck",
+   "style": "Sprich wie ein freundlicher, selbstsicherer Verkäufer am Telefon: natürlich, ruhig, mit kleinen Pausen, nicht vorgelesen.",
+   "text": "Mach ich gern. Damit die Mail nicht im Stapel landet: Was müsste drinstehen, damit Sie sie wirklich lesen?"
+  },
+  {
+   "speaker": "ai",
+   "voice": "Kore",
+   "style": "Sprich wie eine Einkäuferin am Telefon, die gerade viel zu tun hat: sachlich, etwas kurz angebunden, natürlich und nicht übertrieben.",
+   "text": "Der Preis pro Meter. Und ob Sie ab Lager liefern. Unser jetziger braucht drei Wochen."
+  },
+  {
+   "speaker": "you",
+   "voice": "Puck",
+   "style": "Sprich wie ein freundlicher, selbstsicherer Verkäufer am Telefon: natürlich, ruhig, mit kleinen Pausen, nicht vorgelesen.",
+   "text": "Drei Wochen, wenn eine Presse steht, ist teuer. Wir liefern die gängigen Durchmesser in 48 Stunden. Wie oft kommt es bei Ihnen vor, dass Sie auf Schläuche warten?"
+  },
+  {
+   "speaker": "ai",
+   "voice": "Kore",
+   "style": "Sprich wie eine Einkäuferin am Telefon, die gerade viel zu tun hat: sachlich, etwas kurz angebunden, natürlich und nicht übertrieben.",
+   "text": "Zwei, drei Mal im Jahr. Was kostet das bei Ihnen?"
+  },
+  {
+   "speaker": "you",
+   "voice": "Puck",
+   "style": "Sprich wie ein freundlicher, selbstsicherer Verkäufer am Telefon: natürlich, ruhig, mit kleinen Pausen, nicht vorgelesen.",
+   "text": "Das hängt vom Durchmesser ab. Ich zeige Ihnen am Donnerstag zwanzig Minuten lang die Preise für Ihre fünf häufigsten Typen. Passt 10:30?"
+  },
+  {
+   "speaker": "ai",
+   "voice": "Kore",
+   "style": "Sprich wie eine Einkäuferin am Telefon, die gerade viel zu tun hat: sachlich, etwas kurz angebunden, natürlich und nicht übertrieben.",
+   "text": "Donnerstag 10:30 geht. Aber nur zwanzig Minuten."
+  }
+ ]
+}

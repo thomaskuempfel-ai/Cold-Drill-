@@ -352,10 +352,18 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:flex;
   rows.forEach(function (r) { r.classList.add("done"); });   // complete at rest
   var playBtn = document.getElementById("play"), running = false, timer = null;
   var synth = window.speechSynthesis || null;
-  function voices() { try { return synth ? synth.getVoices().filter(function (v) { return /^de/i.test(v.lang); }) : []; } catch (e) { return []; } }
+  // fallback only: the browser's own German voices, the more natural ones first (Edge «Online (Natural)», Google, Apple «Premium/Enhanced»)
+  function rank(v) { var n = v.name || ""; return (/natural|online/i.test(n) ? 0 : /premium|enhanced|neural/i.test(n) ? 1 : /google/i.test(n) ? 2 : 5) + (v.localService ? 0.5 : 0); }
+  function voices() { try { return synth ? synth.getVoices().filter(function (v) { return /^de/i.test(v.lang); }).sort(function (a, b) { return rank(a) - rank(b); }) : []; } catch (e) { return []; } }
+  // recorded sample call (scripts/tts.mjs, Gemini TTS) when available
+  var REC = null, audio = null;
+  fetch("/audio/manifest.json", { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (m) {
+    if (m && m.files && m.files.length === rows.length) { REC = m.files.map(function (f) { return "/audio/" + f; }); document.getElementById("dnote").textContent = "Beispielgespräch mit KI-Stimmen. Im Training antwortet die KI frei auf das, was du sagst."; }
+  }).catch(function () {});
   function stop() {
     running = false; clearTimeout(timer);
     try { if (synth) synth.cancel(); } catch (e) {}
+    try { if (audio) { audio.pause(); audio.onended = null; } } catch (e) {}
     rows.forEach(function (r) { r.classList.remove("on"); r.classList.add("done"); });
     playBtn.textContent = "▶ Hörprobe abspielen";
   }
@@ -365,6 +373,13 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:flex;
     rows.forEach(function (r, j) { r.classList.toggle("on", j === k); r.classList.toggle("done", j < k); });
     if (rows[k].scrollIntoView && !RM) rows[k].scrollIntoView({ block: "nearest", behavior: "smooth" });
     var text = CALL[k][1], vs = voices(), next = function () { timer = setTimeout(function () { step(k + 1); }, 350); };
+    if (REC) {
+      try {
+        audio = new Audio(REC[k]); audio.onended = next; audio.onerror = function () { timer = setTimeout(function () { step(k + 1); }, 900 + text.length * 45); };
+        audio.play().catch(audio.onerror);
+        return;
+      } catch (e) {}
+    }
     if (synth && vs.length) {
       try {
         var u = new SpeechSynthesisUtterance(text);
@@ -382,7 +397,7 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:flex;
     if (running) { stop(); return; }
     running = true; playBtn.textContent = "■ Stoppen";
     rows.forEach(function (r) { r.classList.remove("done"); });
-    if (!voices().length) document.getElementById("dnote").textContent = "Dein Browser hat keine deutsche Stimme: das Gespräch läuft als Text ab. Im Training antwortet die KI frei und mit echter Stimme.";
+    if (!REC && !voices().length) document.getElementById("dnote").textContent = "Dein Browser hat keine deutsche Stimme: das Gespräch läuft als Text ab. Im Training antwortet die KI frei und mit echter Stimme.";
     step(0);
   });
 
