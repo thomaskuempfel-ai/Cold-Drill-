@@ -1,12 +1,26 @@
 name: demo-audio
 
-# Records the sample call on the landing page (branch `landing`) with Gemini TTS and commits audio/ there.
-# Needs the repository secret GEMINI_API_KEY (Settings > Secrets and variables > Actions).
+# Records the sample call on the landing page (branch `landing`) and commits audio/ there.
+# Repository secrets (Settings > Secrets and variables > Actions): GEMINI_API_KEY for Gemini TTS,
+# ELEVENLABS_API_KEY for ElevenLabs (plus the two voice ids below, from the ElevenLabs voice library).
 on:
   workflow_dispatch:
     inputs:
+      provider:
+        description: "gemini or elevenlabs"
+        type: choice
+        options: [elevenlabs, gemini]
+        default: elevenlabs
+      el_voice_ai:
+        description: "ElevenLabs voice id for Frau Graf (German, female)"
+        type: string
+        default: ""
+      el_voice_you:
+        description: "ElevenLabs voice id for the seller (German, male)"
+        type: string
+        default: ""
       model:
-        description: "TTS model(s), comma-separated (first that works is used)"
+        description: "Gemini only: TTS model(s), comma-separated (first that works is used)"
         type: string
         default: "gemini-2.5-flash-preview-tts,gemini-2.5-pro-preview-tts"
 
@@ -24,10 +38,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - if: inputs.provider == 'gemini'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - name: Record
         env:
+          TTS_PROVIDER: ${{ inputs.provider }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          EL_VOICE_AI: ${{ inputs.el_voice_ai }}
+          EL_VOICE_YOU: ${{ inputs.el_voice_you }}
           TTS_MODEL: ${{ inputs.model }}
         run: node scripts/tts.mjs
       - name: Commit audio
